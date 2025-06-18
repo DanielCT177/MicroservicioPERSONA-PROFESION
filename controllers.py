@@ -88,7 +88,6 @@ def obtener_personas_profesiones():
 
     return jsonify(resultado), 200
 
-
 def obtener_persona_profesion_por_id(persona_id):
     try:
         # Llamadas a las APIs externas
@@ -144,3 +143,35 @@ def obtener_persona_profesion_por_id(persona_id):
         return jsonify({"message": "No se encontró relación para esa persona"}), 404
 
     return jsonify(resultado), 200
+
+def eliminar_logicamente_profesion_persona():
+    persona_id = request.args.get('persona_id')
+    profesion_id = request.args.get('profesion_id')
+
+    if not persona_id or not profesion_id:
+        return jsonify({"message": "Faltan parámetros: persona_id y profesion_id son requeridos"}), 400
+
+    estatus_inactivo_id = 'b4170dff-fdc7-43e2-ad3c-3247d4a46854'
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        query = """
+            UPDATE persona_profesion
+            SET estatus_id = %s
+            WHERE persona_id = %s AND profesion_id = %s
+        """
+        cursor.execute(query, (estatus_inactivo_id, persona_id, profesion_id))
+        conn.commit()
+        filas_afectadas = cursor.rowcount
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    if filas_afectadas == 0:
+        return jsonify({"message": "Asignación no encontrada"}), 404
+    else:
+        return jsonify({"message": "Asignación desactivada correctamente"}), 200

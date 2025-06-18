@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controllers import asignar_profesion_persona, obtener_personas_profesiones, obtener_persona_profesion_por_id
+from controllers import asignar_profesion_persona, obtener_personas_profesiones, obtener_persona_profesion_por_id, eliminar_logicamente_profesion_persona
 
 persona_profesion_bp = Blueprint('persona_profesion_bp', __name__)
 
@@ -22,3 +22,8 @@ def obtener_personas_profesion():
 @persona_profesion_bp.route('/obtener_persona_profesion/<persona_id>', methods=['GET'])
 def obtener_persona_profesion_por_id_route(persona_id):
     return obtener_persona_profesion_por_id(persona_id)
+
+# Eliminar logicamente por ID de persona con el estatus
+@persona_profesion_bp.route('/persona_profesion/eliminar_logico', methods=['PUT'])
+def eliminar_logico_asignacion():
+    return eliminar_logicamente_profesion_persona()
