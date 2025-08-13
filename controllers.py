@@ -151,7 +151,7 @@ def eliminar_logicamente_profesion_persona():
     if not persona_id or not profesion_id:
         return jsonify({"message": "Faltan parámetros: persona_id y profesion_id son requeridos"}), 400
 
-    estatus_inactivo_id = 'b4170dff-fdc7-43e2-ad3c-3247d4a46854'
+    estatus_inactivo_id = '46c9c64a-41c2-49d5-9d8e-ee7d0283c454'
 
     conn = get_db_connection()
     cursor = conn.cursor()
