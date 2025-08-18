@@ -35,7 +35,6 @@ def asignar_profesion_persona():
 
 # Obtener personas con su profesion
 def obtener_personas_profesiones():
-
     try:
         # Llamadas a las APIs externas
         personas_response = requests.get("https://microservicioine.onrender.com/api/ine/obtenerPersonas")
@@ -77,16 +76,14 @@ def obtener_personas_profesiones():
 
         if persona and profesion and estatus:
             resultado.append({
-                "persona_id": persona_id,
-                "persona_nombre": f"{persona['nombre']} {persona['apellido_paterno']} {persona['apellido_materno']}",
-                "profesion_id": profesion_id,
-                "profesion_nombre": profesion["nombre"],
+                "persona": persona,  # 🔹 Se agrega TODO el objeto de la persona
+                "profesion": profesion,  # 🔹 Todo el objeto de profesión
                 "fecha_asignacion": str(fecha_asignacion),
-                "estatus_id": estatus_id,
-                "estatus_nombre": estatus["nombre"]
+                "estatus": estatus  # 🔹 Todo el objeto de estatus
             })
 
     return jsonify(resultado), 200
+
 
 def obtener_persona_profesion_por_id(persona_id):
     try:
